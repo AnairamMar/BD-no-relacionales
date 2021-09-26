@@ -14,6 +14,36 @@ db.tweets.aggregate([
 ## 2) Cómo podemos saber de dónde son los tuiteros que más tiempo tienen en la plataforma?
 
 ## 3) En intervalos de 7:00:00pm a 6:59:59am y de 7:00:00am a 6:59:59pm, de qué paises la mayoría de los tuits?
+```javascript
+db.tweets.aggregate([
+    
+    {$addFields: {
+            "hora":{  $toInt: {$substr: ["$created_at", 11, 2] } }    
+        }
+    },
+    {$addFields: 
+        { "tipo":
+            { 
+                $switch : { 
+                    branches: [
+                        {case: { $or: [{$gte : ["$hora", 7]}, {$lte : ["$hora", 18]}] }, then: "7 AM - 6:59:59 PM"}                    
+                    ],
+                    default : "7 PM - 6:59:59 AM"
+                }                                     
+            }
+        }
+    },
+    {$group: {_id: {"lang":"$user.lang", "Intervalo":"$tipo"}, "usuarios":{$count: {}}}},
+    {$lookup: {from:"primarydialects","localField":"_id.lang","foreignField":"lang","as":"language"}},
+    {$lookup: {from:"languagenames","localField":"language.locale","foreignField":"locale","as":"fulllocale"}},
+    {$project: {_id:1, usuarios:1, "fulllocale.languages":1}},
+    {$sort: {"usuarios": -1}}
+]);
+   
+   
+```
+   
+
 
 ## 4) De qué país son los tuiteros más famosos de nuestra colección?
 
