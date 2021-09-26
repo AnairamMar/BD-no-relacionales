@@ -16,7 +16,7 @@ db.tweets.aggregate([
 ## 3) En intervalos de 7:00:00pm a 6:59:59am y de 7:00:00am a 6:59:59pm, de qué paises la mayoría de los tuits?
 
 ## 4) De qué país son los tuiteros más famosos de nuestra colección?
-<br>
+
 ```javascript
 db.tweets.aggregate([         
     {$project: {"user.followers_count":1, "user.lang":1}}, 
