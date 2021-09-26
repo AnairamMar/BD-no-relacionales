@@ -3,7 +3,7 @@
 <br>
 <br>
 ## 1) Cómo podemos saber si los tuiteros hispanohablantes interactúan más en las noches?
-<br>
+
 ```javascript
 db.tweets.aggregate([ 
     { $group: { _id: { "lang": "$user.lang", "hour": { $substr: ["$created_at", 11, 2] } }, "counter": { $count: {} } } }, 
