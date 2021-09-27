@@ -18,7 +18,7 @@ db.tweets.aggregate([
     {$lookup: {from:"countries","localField":"user.time_zone","foreignField":"time_zone","as":"countryy"}},
     {$group: {_id:{"user_created_at":"$user.created_at","location":"$user.location","country":"$countryy.country"}}},
     {$sort: {"_id.user_created_at":1}}
-])
+]);
 ```
 
 ## 3) En intervalos de 7:00:00pm a 6:59:59am y de 7:00:00am a 6:59:59pm, de qué paises la mayoría de los tuits?
@@ -60,5 +60,5 @@ db.tweets.aggregate([
   {$group: {_id:{"country":"$pais.country","seguidores":"$user.friends_count"}}},
   {$sort: {"_id.seguidores":-1}},
   {$limit : 15}
-])
+]);
 ```
