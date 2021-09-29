@@ -56,8 +56,8 @@ db.tweets.aggregate([
 ## 4) De qué país son los tuiteros más famosos de nuestra colección?
 ```javascript
 db.tweets.aggregate([
-  {$lookup: {from:"countries","localField":"user.time_zone","foreignField":"time_zone","as":"pais"}},
-  {$group: {_id:{"country":"$pais.country","seguidores":"$user.friends_count"}}},
+  {$lookup: {from:"countries","localField":"user.time_zone","foreignField":"user.time_zone","as":"pais"}},
+  {$group: {_id:{"country":"$user.time_zone","seguidores":"$user.friends_count"}}},
   {$sort: {"_id.seguidores":-1}},
   {$limit : 15}
 ]);
