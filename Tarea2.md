@@ -15,8 +15,8 @@ db.tweets.aggregate([
 ```javascript
 db.tweets.aggregate([
     {$addFields: { "user.created_at": { "$toDate": "$user.created_at" }}},
-    {$lookup: {from:"countries","localField":"user.time_zone","foreignField":"time_zone","as":"countryy"}},
-    {$group: {_id:{"user_created_at":"$user.created_at","location":"$user.location","country":"$countryy.country"}}},
+    {$lookup: {from:"countries","localField":"user.time_zone","foreignField":"user.time_zone","as":"countryy"}},
+    {$group: {_id:{"user_created_at":"$user.created_at","location":"$user.location","country":"$user.time_zone"}}},
     {$sort: {"_id.user_created_at":1}}
 ]);
 ```
